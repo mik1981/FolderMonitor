@@ -1,0 +1,7 @@
+*.fm
+FolderMonitor.spec 
+Lib 
+Scripts 
+__pycache__ 
+build 
+dist
