@@ -9,3 +9,4 @@ pyinstaller-hooks-contrib==2023.12
 pywin32-ctypes==0.2.2
 rich==13.7.0
 setuptools==69.0.3
+win11toast==0.34

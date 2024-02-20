@@ -12,7 +12,7 @@ import  logging,  traceback,  sys
 
 
 class richPrint:
-    def __init__( self,  modeConsole=1,  debugLevel=5 ):
+    def __init__( self,  modeConsole=0,  debugLevel=3 ):
         self.console        =   Console ()
         self.debugLevel     =   debugLevel
         self.mode           =   modeConsole #   0:  shell, no log
@@ -54,7 +54,22 @@ class richPrint:
         self.console.clear  ()              #   cancella lo schermo
 
 
-    def inspectObj( self, obj,  full=False ):       inspect ( obj,  methods=full )
+    def inspectObj( self, obj,  full=False ):       inspect             ( obj,  methods=full )
+
+    def setDebugLevel( self,  debugLevel ):
+        if  self.debugLevel  !=  debugLevel:
+            log             =   logging.getLogger   ()
+            self.debugLevel =   debugLevel
+            match debugLevel:
+                case    0:  LEVEL   =   logging.CRITICAL
+                case    1:  LEVEL   =   logging.CRITICAL
+                case    2:  LEVEL   =   logging.ERROR
+                case    3:  LEVEL   =   logging.WARNING
+                case    4:  LEVEL   =   logging.INFO
+                case    5:  LEVEL   =   logging.DEBUG
+                case    _:  LEVEL   =   "NOTSET"
+            log.setLevel    ( LEVEL )
+
 
     def isConsoleMode( self ):
         if self.mode < 2:   return  True
@@ -63,12 +78,11 @@ class richPrint:
 
     def print( self, *args, **kwargs ):
         match self.mode:
-            case    0:      print               ( *args, **kwargs )
+            case    0:      self.console.print  ( *args, **kwargs )
             case    1:      self.console.log    ( *args, **kwargs )
             case    other:  pass
 
     def printCrit( self, *args, **kwargs ):
-        log             =   logging.getLogger   ( "main" )
         log.critical    ( *args, **kwargs )
         self.print      ( *args, **kwargs )
 
@@ -77,12 +91,21 @@ class richPrint:
         log.debug       ( *args, **kwargs )
         self.print      ( *args, **kwargs )
 
+    def printInf( self, *args, **kwargs ):
+        log             =   logging.getLogger   ( "main" )
+        log.info        ( *args, **kwargs )
+        self.print      ( *args, **kwargs )
+
 
 
     def printF( self, msg=None,  pf=None,  spinner="dots" ):
         if msg != None  and  pf != None:
-            with self.console.status ( msg,  spinner=spinner ):
-                pf  ()
+            if spinner == None:
+                with self.console.status ( msg ):
+                    pf  ()
+            else:
+                with self.console.status ( msg,  spinner=spinner ):
+                    pf  ()
 
     #   print section divider
     def printS( self, msg,  style='rule.line',  align='center' ):

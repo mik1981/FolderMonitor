@@ -104,7 +104,7 @@ class KBHit:
                         case    '<':    return  "F2"
                         case    '=':    return  "F3"
                         case    '>':    return  "F4"
-                        case    _:      log.warning     ( f"special char -> getch-{c1=}, {c2=}" )
+                        case    _:      log.debug       ( f"special char -> getch-{c1=}, {c2=}" )
 
                 elif arrow:
                     match   c2:
@@ -112,14 +112,14 @@ class KBHit:
                         case    'K':    return  "LEFT"
                         case    'P':    return  "DOWN"
                         case    'M':    return  "RIGHT"
-                        case    _:      log.warning     ( f"arrow char -> getch-{c1=}, {c2=}" )
+                        case    _:      log.debug       ( f"arrow char -> getch-{c1=}, {c2=}" )
 
                 else:
                     match   c2:
                         case    '\x1B': return  "ESC"
                         case    '\x0D': return  "ENTER"
                         case    '\x08': return  "BS"
-                        case    _:      log.warning     ( f"normal char -> getch-{c1=}, {c2=}" )
+                        case    _:      log.debug       ( f"normal char -> getch-{c1=}, {c2=}" )
 
                 if  ( c2 >= 'a'  and  c2 <= 'z' )       or  \
                     ( c2 >= 'A'  and  c2 <= 'Z' )       or  \
@@ -149,7 +149,7 @@ class KBHit:
             msvcrt.getch() # skip 0xE0
             c = msvcrt.getch()
             log                 =   logging.getLogger   ( LOG_NAME )
-            log.debug(f"getarrow {c=}")
+            log.debug           ( f"getarrow {c=}" )
             vals = [72, 77, 80, 75]
 
         else:
